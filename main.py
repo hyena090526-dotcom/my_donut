@@ -172,3 +172,37 @@ st.markdown("---")
 st.subheader("💡 이 그래프로 알 수 있는 것")
 st.write("주요 장르별 관객 수의 중앙값과 흥행 변동성(IQR)을 비교할 수 있으며, 박스 상단 밖의 이상치 점으로 각 장르의 기록적인 대흥행작을 확인할 수 있습니다.")
 st.markdown("---")
+
+# -------------------------------------------------------------------
+# 여섯 번째 그래프: 개봉일 스크린수 vs 총 관객 수 (개봉 첫 주 관객 크기 버블 차트)
+# -------------------------------------------------------------------
+st.subheader("6. 개봉일 스크린수, 총 관객 수, 개봉 첫 주 관객 수의 관계 (버블 차트)")
+
+fig6 = px.scatter(
+    df,
+    x='first_scrn',
+    y='total_audi',
+    size='first_week_audi',
+    color='genre',
+    size_max=40,
+    title='개봉일 스크린수 vs 총 관객 수 (버블 크기: 개봉 첫 주 관객 수)',
+    labels={
+        'first_scrn': '개봉일 스크린수 (개)',
+        'total_audi': '총 관객 수 (명)',
+        'genre': '장르',
+        'first_week_audi': '개봉 첫 주 관객 수 (명)'
+    },
+    hover_name='movieNm',
+    hover_data={'first_scrn': ':,', 'total_audi': ':,', 'first_week_audi': ':,', 'genre': True}
+)
+
+fig6.update_traces(
+    hovertemplate='<b>%{hovertext}</b><br>장르: %{customdata[3]}<br>개봉일 스크린수: %{x:,.0f}개<br>총 관객 수: %{y:,.0f}명<br>개봉 첫 주 관객 수: %{customdata[2]:,.0f}명'
+)
+
+st.plotly_chart(fig6, use_container_width=True)
+
+st.markdown("---")
+st.subheader("💡 이 그래프로 알 수 있는 것")
+st.write("개봉일 스크린수와 최종 관객 수뿐만 아니라 버블 크기를 통해 초반 흥행 동력(개봉 첫 주 관객 수)이 최종 성적에 미치는 영향력을 3차원적(X, Y, 크기)으로 분석할 수 있습니다.")
+st.markdown("---")
