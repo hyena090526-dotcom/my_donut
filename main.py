@@ -106,3 +106,34 @@ st.write(
     f"가장 관객 수가 많은 영화는 **{top_movie_name}** ({top_movie_audi:,.0f}명)입니다."
 )
 st.markdown("---")
+
+# -------------------------------------------------------------------
+# 네 번째 그래프: 개봉일 스크린수 vs 총 관객 수 (산점도)
+# -------------------------------------------------------------------
+st.subheader("4. 개봉일 스크린수와 총 관객 수의 관계")
+
+fig4 = px.scatter(
+    df,
+    x='first_scrn',
+    y='total_audi',
+    color='genre',
+    title='개봉일 스크린수 vs 총 관객 수',
+    labels={
+        'first_scrn': '개봉일 스크린수 (개)',
+        'total_audi': '총 관객 수 (명)',
+        'genre': '장르'
+    },
+    hover_name='movieNm',
+    hover_data={'first_scrn': ':,', 'total_audi': ':,', 'genre': True}
+)
+
+fig4.update_traces(
+    hovertemplate='<b>%{hovertext}</b><br>장르: %{customdata[2]}<br>개봉일 스크린수: %{x:,.0f}개<br>총 관객 수: %{y:,.0f}명'
+)
+
+st.plotly_chart(fig4, use_container_width=True)
+
+st.markdown("---")
+st.subheader("💡 이 그래프로 알 수 있는 것")
+st.write("개봉일 스크린수가 많을수록 대체로 총 관객 수가 증가하는 양의 상관관계를 보이며, 장르별 선호도나 입소문에 따른 흥행 차이도 함께 확인할 수 있습니다.")
+st.markdown("---")
