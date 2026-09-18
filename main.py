@@ -209,3 +209,30 @@ st.markdown("---")
 st.subheader("💡 이 그래프로 알 수 있는 것")
 st.write("개봉일 스크린수와 최종 관객 수뿐만 아니라 버블 크기를 통해 초반 흥행 동력(개봉 첫 주 관객 수)이 최종 성적에 미치는 영향력을 3차원적(X, Y, 크기)으로 분석할 수 있습니다.")
 st.markdown("---")
+
+# -------------------------------------------------------------------
+# 일곱 번째 그래프: 제작 국가별 장르 분포 (선버스트 차트)
+# -------------------------------------------------------------------
+st.subheader("7. 제작 국가 및 장르별 영화 편수 (선버스트 차트)")
+
+# 국가 및 장르별 영화 편수 집계
+df_sunburst = df.groupby(['nation', 'genre'], as_index=False).size()
+df_sunburst.columns = ['nation', 'genre', 'movie_count']
+
+fig7 = px.sunburst(
+    df_sunburst,
+    path=['nation', 'genre'],
+    values='movie_count',
+    title='제작 국가 > 장르별 영화 편수 분포'
+)
+
+fig7.update_traces(
+    hovertemplate='<b>%{label}</b><br>영화 수: %{value}편<br>비율: %{percentParent:.1%}'
+)
+
+st.plotly_chart(fig7, use_container_width=True)
+
+st.markdown("---")
+st.subheader("💡 이 그래프로 알 수 있는 것")
+st.write("제작 국가별 영화 출시 규모와 각 국가 내에서 주를 이루는 대표 장르 구성 비율을 원형 계층 구조로 명확하게 비교할 수 있습니다.")
+st.markdown("---")
