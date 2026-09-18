@@ -56,8 +56,11 @@ st.markdown("---")
 # -------------------------------------------------------------------
 st.subheader("2. 장르별 영화 및 총 관객 수")
 
+# 중복 영화명으로 인한 Plotly 트리맵 계층 생성 에러 방지
+df_treemap = df.groupby(['genre', 'movieNm'], as_index=False)['total_audi'].sum()
+
 fig2 = px.treemap(
-    df,
+    df_treemap,
     path=[px.Constant("전체"), 'genre', 'movieNm'],
     values='total_audi',
     title='장르 및 영화별 총 관객 수 분포'
