@@ -215,7 +215,6 @@ st.markdown("---")
 # -------------------------------------------------------------------
 st.subheader("7. 제작 국가 및 장르별 영화 편수 (선버스트 차트)")
 
-# 국가 및 장르별 영화 편수 집계
 df_sunburst = df.groupby(['nation', 'genre'], as_index=False).size()
 df_sunburst.columns = ['nation', 'genre', 'movie_count']
 
@@ -235,4 +234,35 @@ st.plotly_chart(fig7, use_container_width=True)
 st.markdown("---")
 st.subheader("💡 이 그래프로 알 수 있는 것")
 st.write("제작 국가별 영화 출시 규모와 각 국가 내에서 주를 이루는 대표 장르 구성 비율을 원형 계층 구조로 명확하게 비교할 수 있습니다.")
+st.markdown("---")
+
+# -------------------------------------------------------------------
+# 여덟 번째 그래프: 나만의 질문 (산점도)
+# -------------------------------------------------------------------
+st.subheader("8. 개봉일 상영횟수가 많은 영화는 총 관객 수도 많은가?")
+
+fig8 = px.scatter(
+    df,
+    x='first_show',
+    y='total_audi',
+    color='genre',
+    title='개봉일 상영횟수 vs 총 관객 수',
+    labels={
+        'first_show': '개봉일 상영횟수 (회)',
+        'total_audi': '총 관객 수 (명)',
+        'genre': '장르'
+    },
+    hover_name='movieNm',
+    hover_data={'first_show': ':,', 'total_audi': ':,', 'genre': True}
+)
+
+fig8.update_traces(
+    hovertemplate='<b>%{hovertext}</b><br>장르: %{customdata[2]}<br>개봉일 상영횟수: %{x:,.0f}회<br>총 관객 수: %{y:,.0f}명'
+)
+
+st.plotly_chart(fig8, use_container_width=True)
+
+st.markdown("---")
+st.subheader("💡 이 그래프로 알 수 있는 것")
+st.write("개봉 첫날 상영횟수가 확보될수록 최종 관객 수가 증가하는 뚜렷한 뚜렷한 양의 상관관계를 보여주며, 초반 상영 기회 선점이 영화 흥행의 중요한 요소임을 확인할 수 있습니다.")
 st.markdown("---")
